@@ -12,6 +12,13 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.SpecialistDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Servlet to add a new specialist category.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/addSpecialist")
 public class SpecialistServlet extends HttpServlet{
 
@@ -23,6 +30,8 @@ public class SpecialistServlet extends HttpServlet{
 		SpecialistDAO specialistDAO = new SpecialistDAO(DBConnection.getConn());
 		boolean f = specialistDAO.addSpecialist(specialistName);
 		
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 		
 		if (f==true) {

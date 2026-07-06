@@ -12,6 +12,13 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Servlet to handle doctor password change.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/doctorChangePassword")
 public class DoctorChangePassword extends HttpServlet {
 
@@ -24,6 +31,8 @@ public class DoctorChangePassword extends HttpServlet {
 
 		DoctorDAO doctorDAO = new DoctorDAO(DBConnection.getConn());
 
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 
 		if (doctorDAO.checkOldPassword(doctorId, oldPassword)) {

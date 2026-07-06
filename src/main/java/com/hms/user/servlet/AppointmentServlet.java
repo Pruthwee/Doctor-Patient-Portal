@@ -13,6 +13,13 @@ import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Appointment;
 
+/**
+ * Servlet to handle appointment booking by a user.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/addAppointment")
 public class AppointmentServlet extends HttpServlet{
 
@@ -36,7 +43,8 @@ public class AppointmentServlet extends HttpServlet{
 	AppointmentDAO appointmentDAO = new AppointmentDAO(DBConnection.getConn());
 	boolean f = appointmentDAO.addAppointment(appointment);
 	
-	//get session
+	// HttpSession is transparently backed by Amazon ElastiCache for Redis
+	// via Spring Session for distributed, stateless session management.
 	HttpSession session = req.getSession();
 	
 	if(f==true) {

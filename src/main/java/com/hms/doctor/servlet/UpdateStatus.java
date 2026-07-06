@@ -12,6 +12,13 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Servlet to update appointment status/comment by a doctor.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/updateStatus")
 public class UpdateStatus extends HttpServlet{
 
@@ -27,6 +34,8 @@ public class UpdateStatus extends HttpServlet{
 		 AppointmentDAO appDAO = new AppointmentDAO(DBConnection.getConn());
 		 boolean f = appDAO.updateDrAppointmentCommentStatus(id, doctorId, comment);
 		 
+		 // HttpSession is transparently backed by Amazon ElastiCache for Redis
+		 // via Spring Session for distributed, stateless session management.
 		 HttpSession session = req.getSession();
 		 
 		 

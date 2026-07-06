@@ -12,16 +12,26 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Servlet to delete a doctor record.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/deleteDoctor")
 public class DeleteDoctorServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		//get id(which is coming as string value) and convert into int	
+		// Get id (coming as string value) and convert to int
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
+
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 		
 		boolean f = docDAO.deleteDoctorById(id);

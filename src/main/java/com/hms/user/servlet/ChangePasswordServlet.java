@@ -12,6 +12,13 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Servlet to handle user password change.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/userChangePassword")
 public class ChangePasswordServlet extends HttpServlet{
 
@@ -23,9 +30,9 @@ public class ChangePasswordServlet extends HttpServlet{
 		String newPassword = req.getParameter("newPassword");
 		
 		UserDAO uDAO = new UserDAO(DBConnection.getConn());
-		//boolean f = uDAO.checkOldPassword(userId, oldPassword);
 		
-		
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 		
 		if(uDAO.checkOldPassword(userId, oldPassword)) {

@@ -13,6 +13,13 @@ import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.User;
 
+/**
+ * Servlet to handle user (patient) login.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/userLogin")
 public class UserLoginServlet extends HttpServlet {
 
@@ -22,12 +29,16 @@ public class UserLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 		
 		UserDAO userDAO = new UserDAO(DBConnection.getConn());
 		User user = userDAO.loginUser(email, password);
 		
 		if (user!=null) {
+			// Store the authenticated user object in the distributed Redis-backed
+			// session so all application instances can access it.
 			session.setAttribute("userObj",user);
 			resp.sendRedirect("index.jsp"); 
 		}

@@ -10,36 +10,43 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
-import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
 
+/**
+ * Servlet to handle doctor login.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/doctorLogin")
 public class DoctorLoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		//get email and password which is coming from doctor_login.jsp page
+		// Get email and password coming from doctor_login.jsp page
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 
-		//create session
+		// HttpSession is transparently backed by Amazon ElastiCache for Redis
+		// via Spring Session for distributed, stateless session management.
 		HttpSession session = req.getSession();
 
-		//create DB connection
+		// Create DB connection via HikariCP pool
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
 		
-		//call loginDoctor() method for doctor login which method declared in DoctorDAO 
+		// Call loginDoctor() method for doctor login
 		Doctor doctor = docDAO.loginDoctor(email, password);
 
 		if (doctor != null) {
-			//means doctor is valid or exist
-			//then store particular logged in doctor object in session
+			// Doctor is valid/exists – store the doctor object in the distributed
+			// Redis-backed session so all application instances can access it.
 			session.setAttribute("doctorObj", doctor);
-			//and redirect the particular doctor index page which is reside doctor folder
-			resp.sendRedirect("doctor/index.jsp");//doctor index means dashboard of doctors
+			// Redirect to the doctor dashboard
+			resp.sendRedirect("doctor/index.jsp");
 		} else {
 			session.setAttribute("errorMsg", "Invalid email or password");
 			resp.sendRedirect("doctor_login.jsp");

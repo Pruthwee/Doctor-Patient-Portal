@@ -13,6 +13,13 @@ import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
+/**
+ * Servlet to update an existing doctor's details.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/updateDoctor")
 public class UpdateDoctorServlet extends HttpServlet {
 
@@ -21,7 +28,7 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 		try {
 
-			// get all data which is coming from doctor.jsp doctor details
+			// Get all data coming from doctor.jsp doctor details
 			String fullName = req.getParameter("fullName");
 			String dateOfBirth = req.getParameter("dateOfBirth");
 			String qualification = req.getParameter("qualification");
@@ -30,8 +37,8 @@ public class UpdateDoctorServlet extends HttpServlet {
 			String phone = req.getParameter("phone");
 			String password = req.getParameter("password");
 			
-			//here need to get id also...for updating the doctor details
-			//doctors will update based on respective doctor's id
+			// Need to get id also for updating the doctor details
+			// Doctors will be updated based on their respective id
 			int id = Integer.parseInt(req.getParameter("id"));
 
 			Doctor doctor = new Doctor(id, fullName, dateOfBirth, qualification, specialist, email, phone, password);
@@ -40,6 +47,8 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
+			// HttpSession is transparently backed by Amazon ElastiCache for Redis
+			// via Spring Session for distributed, stateless session management.
 			HttpSession session = req.getSession();
 
 			if (f == true) {

@@ -1,7 +1,6 @@
 package com.hms.user.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +13,13 @@ import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.User;
 
+/**
+ * Servlet to handle new user (patient) registration.
+ *
+ * Session management is backed by Amazon ElastiCache for Redis via
+ * Spring Session, enabling stateless application instances with
+ * centralized, distributed session storage.
+ */
 @WebServlet("/user_register")
 public class UserRegisterServlet extends HttpServlet {
 
@@ -22,10 +28,7 @@ public class UserRegisterServlet extends HttpServlet {
 
 		try {
 
-			// PrintWriter out = resp.getWriter();
-
-			// get all data/value which is coming from signup.jsp page for new User
-			// registration
+			// Get all data/value coming from signup.jsp page for new User registration
 			String fullName = req.getParameter("fullName");
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
@@ -33,30 +36,27 @@ public class UserRegisterServlet extends HttpServlet {
 			// Set all data to User Entity
 			User user = new User(fullName, email, password);
 
-			// Create Connection with DB
+			// Create Connection with DB via HikariCP pool
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
 			
-			//get session
+			// HttpSession is transparently backed by Amazon ElastiCache for Redis
+			// via Spring Session for distributed, stateless session management.
 			HttpSession session = req.getSession();
 			
 
-			// call userRegister() and pass user object to insert or save user into DB.
-			boolean f = userDAO.userRegister(user); // userRegister() method return boolean type value
+			// Call userRegister() and pass user object to insert/save user into DB.
+			boolean f = userDAO.userRegister(user); // userRegister() method returns boolean
 
 			if (f == true) {
 
 				session.setAttribute("successMsg", "Register Successfully");
-				resp.sendRedirect("signup.jsp");//which page you want to show this msg
-				//System.out.println("register successfull");
-				// out.println("success");
+				resp.sendRedirect("signup.jsp"); // which page you want to show this msg
 
 			} else {
 				
 				session.setAttribute("errorMsg", "Something went wrong!");
-				resp.sendRedirect("signup.jsp");//which page you want to show this msg
+				resp.sendRedirect("signup.jsp"); // which page you want to show this msg
 				
-				//System.out.println("Error! Something went wrong");
-				// out.println("error");
 			}
 
 		} catch (Exception e) {

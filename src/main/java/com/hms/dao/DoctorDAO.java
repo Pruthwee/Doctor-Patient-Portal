@@ -6,11 +6,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-
 import com.hms.entity.Doctor;
 
+/**
+ * Data Access Object for Doctor entity.
+ *
+ * Uses connections obtained from the HikariCP pool (via DBConnection)
+ * which is backed by Amazon RDS Proxy for cloud-optimised connection
+ * management. The unused HttpSession import has been removed; session
+ * state is managed externally via Amazon ElastiCache for Redis through
+ * Spring Session.
+ */
 public class DoctorDAO {
 
 	private Connection conn;
