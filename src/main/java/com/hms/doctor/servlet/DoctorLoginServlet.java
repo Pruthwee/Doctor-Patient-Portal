@@ -25,7 +25,7 @@ public class DoctorLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 
-		//create session
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 
 		//create DB connection

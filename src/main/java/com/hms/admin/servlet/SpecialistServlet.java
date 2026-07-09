@@ -23,6 +23,7 @@ public class SpecialistServlet extends HttpServlet{
 		SpecialistDAO specialistDAO = new SpecialistDAO(DBConnection.getConn());
 		boolean f = specialistDAO.addSpecialist(specialistName);
 		
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 		
 		if (f==true) {

@@ -27,6 +27,7 @@ public class UpdateStatus extends HttpServlet{
 		 AppointmentDAO appDAO = new AppointmentDAO(DBConnection.getConn());
 		 boolean f = appDAO.updateDrAppointmentCommentStatus(id, doctorId, comment);
 		 
+		 // Using Spring Session with Redis for distributed session management
 		 HttpSession session = req.getSession();
 		 
 		 

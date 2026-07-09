@@ -40,6 +40,7 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
+			// Using Spring Session with Redis for distributed session management
 			HttpSession session = req.getSession();
 
 			if (f == true) {

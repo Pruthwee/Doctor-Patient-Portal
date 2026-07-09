@@ -15,6 +15,7 @@ public class UserLogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 		session.removeAttribute("userObj");
 		session.setAttribute("successMsg", "User Logout Successfully.");

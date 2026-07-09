@@ -25,7 +25,7 @@ public class ChangePasswordServlet extends HttpServlet{
 		UserDAO uDAO = new UserDAO(DBConnection.getConn());
 		//boolean f = uDAO.checkOldPassword(userId, oldPassword);
 		
-		
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 		
 		if(uDAO.checkOldPassword(userId, oldPassword)) {

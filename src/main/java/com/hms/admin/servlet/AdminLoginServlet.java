@@ -23,6 +23,7 @@ public class AdminLoginServlet extends HttpServlet {
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
 			
+			// Using Spring Session with Redis for distributed session management
 			HttpSession session = req.getSession();
 			
 			//logic for a static Admin

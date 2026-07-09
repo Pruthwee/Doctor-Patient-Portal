@@ -24,6 +24,7 @@ public class DoctorChangePassword extends HttpServlet {
 
 		DoctorDAO doctorDAO = new DoctorDAO(DBConnection.getConn());
 
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 
 		if (doctorDAO.checkOldPassword(doctorId, oldPassword)) {

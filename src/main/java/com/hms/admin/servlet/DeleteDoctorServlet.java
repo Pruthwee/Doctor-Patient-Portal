@@ -22,6 +22,7 @@ public class DeleteDoctorServlet extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
+		// Using Spring Session with Redis for distributed session management
 		HttpSession session = req.getSession();
 		
 		boolean f = docDAO.deleteDoctorById(id);

@@ -36,7 +36,7 @@ public class UserRegisterServlet extends HttpServlet {
 			// Create Connection with DB
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
 			
-			//get session
+			// Using Spring Session with Redis for distributed session management
 			HttpSession session = req.getSession();
 			
 

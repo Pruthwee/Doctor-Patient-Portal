@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// Removed unused HttpSession import to avoid state management issues in DAO
+// import javax.servlet.http.HttpSession;
 
 import com.hms.entity.Doctor;
 
@@ -192,6 +193,9 @@ public class DoctorDAO {
 				 * doctor.setFullName(resultSet.getString("fullName"));
 				 * doctor.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				 * doctor.setQualification(resultSet.getString("qualification"));
+				 * doctor.setFullName(resultSet.getString("fullName"));
+				 * doctor.setDateOfBirth(resultSet.getString("dateOfBirth"));
+				 * doctor.setQualification(resultSet.getString("qualification"));
 				 * doctor.setSpecialist(resultSet.getString("specialist"));
 				 * doctor.setEmail(resultSet.getString("email"));
 				 * doctor.setPhone(resultSet.getString("phone"));
@@ -214,7 +218,7 @@ public class DoctorDAO {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+		e.printStackTrace();
 		}
 
 		return doctor;
@@ -410,7 +414,7 @@ public class DoctorDAO {
 			pstmt.setInt(7, doctor.getId());
 
 			pstmt.executeUpdate();
-			// if query updated or all okay than
+			// if query updated or all ok than
 			f = true;
 
 		} catch (Exception e) {

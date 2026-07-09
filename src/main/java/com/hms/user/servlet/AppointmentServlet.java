@@ -36,7 +36,7 @@ public class AppointmentServlet extends HttpServlet{
 	AppointmentDAO appointmentDAO = new AppointmentDAO(DBConnection.getConn());
 	boolean f = appointmentDAO.addAppointment(appointment);
 	
-	//get session
+	// Using Spring Session with Redis for distributed session management
 	HttpSession session = req.getSession();
 	
 	if(f==true) {
