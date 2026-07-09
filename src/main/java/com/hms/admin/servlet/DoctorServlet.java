@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -37,15 +37,15 @@ public class DoctorServlet extends HttpServlet{
 			
 			boolean f = docDAO.registerDoctor(doctor);
 
-			HttpSession session = req.getSession();
+			HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 			
 			if(f==true) {
-				session.setAttribute("successMsg", "Doctor added Successfully");
+				session.setAttribute("successMsg", "Doctor added Successfully"); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("admin/doctor.jsp");
 				
 			}
 			else {
-				session.setAttribute("errorMsg", "Something went wrong on server!");
+				session.setAttribute("errorMsg", "Something went wrong on server!"); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("admin/doctor.jsp");
 			}
 			

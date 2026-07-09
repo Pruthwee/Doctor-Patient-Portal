@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -39,16 +39,16 @@ public class DoctorEditProfileServlet extends HttpServlet {
 
 			boolean f = docDAO.editDoctorProfile(doctor);
 
-			HttpSession session = req.getSession();
+			HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 
 			if (f == true) {
 				Doctor updateDoctorObj = docDAO.getDoctorById(id);
-				session.setAttribute("successMsgForD", "Doctor update Successfully");
-				session.setAttribute("doctorObj", updateDoctorObj); // over ride or update old session value to new updated doctor value.
+				session.setAttribute("successMsgForD", "Doctor update Successfully"); // Stored in Amazon ElastiCache for Redis
+				session.setAttribute("doctorObj", updateDoctorObj); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("doctor/edit_profile.jsp");
 
 			} else {
-				session.setAttribute("errorMsgForD", "Something went wrong on server!");
+				session.setAttribute("errorMsgForD", "Something went wrong on server!"); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("doctor/edit_profile.jsp");
 			}
 

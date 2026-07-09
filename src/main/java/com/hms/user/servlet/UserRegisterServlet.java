@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
@@ -37,7 +37,7 @@ public class UserRegisterServlet extends HttpServlet {
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
 			
 			//get session
-			HttpSession session = req.getSession();
+			HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 			
 
 			// call userRegister() and pass user object to insert or save user into DB.
@@ -45,14 +45,14 @@ public class UserRegisterServlet extends HttpServlet {
 
 			if (f == true) {
 
-				session.setAttribute("successMsg", "Register Successfully");
+				session.setAttribute("successMsg", "Register Successfully"); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				//System.out.println("register successfull");
 				// out.println("success");
 
 			} else {
 				
-				session.setAttribute("errorMsg", "Something went wrong!");
+				session.setAttribute("errorMsg", "Something went wrong!"); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				
 				//System.out.println("Error! Something went wrong");

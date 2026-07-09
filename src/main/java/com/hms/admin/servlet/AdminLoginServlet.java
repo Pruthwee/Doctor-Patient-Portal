@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.entity.User;
 
@@ -23,7 +23,7 @@ public class AdminLoginServlet extends HttpServlet {
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
 			
-			HttpSession session = req.getSession();
+			HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 			
 			//logic for a static Admin
 			if ("admin@gmail.com".equals(email) && "admin".equals(password)) {
@@ -31,11 +31,11 @@ public class AdminLoginServlet extends HttpServlet {
 				//if "adminObj" obj available then give the access of admin page, 
 				//otherwise "adminObj" is not present in obj then others user is login(which is not admin). so dont give him the access of Admin.
 				//the below line specially check the admin is log in or not! "adminObj" object is available that means admin is log in.
-				session.setAttribute("adminObj", new User());
+				session.setAttribute("adminObj", new User()); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("admin/index.jsp");
 			}
 			else {
-				session.setAttribute("errorMsg", "Invalid Username or Password.");
+				session.setAttribute("errorMsg", "Invalid Username or Password."); // Stored in Amazon ElastiCache for Redis
 				resp.sendRedirect("admin_login.jsp");
 			}
 			

@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
@@ -37,18 +37,18 @@ public class AppointmentServlet extends HttpServlet{
 	boolean f = appointmentDAO.addAppointment(appointment);
 	
 	//get session
-	HttpSession session = req.getSession();
+	HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 	
 	if(f==true) {
 		
-		session.setAttribute("successMsg", "Appointment is recorded Successfully.");
+		session.setAttribute("successMsg", "Appointment is recorded Successfully."); // Stored in Amazon ElastiCache for Redis
 		resp.sendRedirect("user_appointment.jsp");
 		
 		
 	}
 	else {
 		
-		session.setAttribute("errorMsg", "Something went wrong on server!");
+		session.setAttribute("errorMsg", "Something went wrong on server!"); // Stored in Amazon ElastiCache for Redis
 		resp.sendRedirect("user_appointment.jsp");
 		
 	}

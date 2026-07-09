@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis (Amazon ElastiCache for Redis)
 
 import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
@@ -27,16 +27,16 @@ public class UpdateStatus extends HttpServlet{
 		 AppointmentDAO appDAO = new AppointmentDAO(DBConnection.getConn());
 		 boolean f = appDAO.updateDrAppointmentCommentStatus(id, doctorId, comment);
 		 
-		 HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Amazon ElastiCache for Redis
 		 
 		 
 		 if(f == true) {
-			 session.setAttribute("successMsg", "Comment updated");
+			 session.setAttribute("successMsg", "Comment updated"); // Stored in Amazon ElastiCache for Redis
 			 resp.sendRedirect("doctor/patient.jsp");
 			 
 		 }else {
 			 
-			 session.setAttribute("errorMsg", "Something went wrong on server!");
+			 session.setAttribute("errorMsg", "Something went wrong on server!"); // Stored in Amazon ElastiCache for Redis
 			 resp.sendRedirect("doctor/patient.jsp");
 			 
 		 }
