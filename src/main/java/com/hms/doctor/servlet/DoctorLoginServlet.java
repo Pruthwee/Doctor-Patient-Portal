@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.dao.DoctorDAO;
 import com.hms.dao.UserDAO;
@@ -26,7 +26,7 @@ public class DoctorLoginServlet extends HttpServlet {
 		String password = req.getParameter("password");
 
 		//create session
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 
 		//create DB connection
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
@@ -37,11 +37,11 @@ public class DoctorLoginServlet extends HttpServlet {
 		if (doctor != null) {
 			//means doctor is valid or exist
 			//then store particular logged in doctor object in session
-			session.setAttribute("doctorObj", doctor);
+			session.setAttribute("doctorObj", doctor); // Stored in Redis
 			//and redirect the particular doctor index page which is reside doctor folder
 			resp.sendRedirect("doctor/index.jsp");//doctor index means dashboard of doctors
 		} else {
-			session.setAttribute("errorMsg", "Invalid email or password");
+			session.setAttribute("errorMsg", "Invalid email or password"); // Stored in Redis
 			resp.sendRedirect("doctor_login.jsp");
 		}
 

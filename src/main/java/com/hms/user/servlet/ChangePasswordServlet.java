@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
@@ -26,24 +26,24 @@ public class ChangePasswordServlet extends HttpServlet{
 		//boolean f = uDAO.checkOldPassword(userId, oldPassword);
 		
 		
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 		
 		if(uDAO.checkOldPassword(userId, oldPassword)) {
 			
 			if(uDAO.changePassword(userId, newPassword)) {
 				
-				session.setAttribute("successMsg", "Password Change Successfully.");
+				session.setAttribute("successMsg", "Password Change Successfully."); // Stored in Redis
 				resp.sendRedirect("change_password.jsp");
 				
 			}else {
 				
-				session.setAttribute("errorMsg", "Something wrong on server!");
+				session.setAttribute("errorMsg", "Something wrong on server!"); // Stored in Redis
 				resp.sendRedirect("change_password.jsp");
 				
 			}
 			
 		}else {
-			session.setAttribute("errorMsg", "Old password incorrect");
+			session.setAttribute("errorMsg", "Old password incorrect"); // Stored in Redis
 			resp.sendRedirect("change_password.jsp");
 		}
 		

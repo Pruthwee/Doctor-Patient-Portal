@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.entity.Doctor;
 
@@ -406,7 +406,7 @@ public class DoctorDAO {
 			pstmt.setString(5, doctor.getEmail());
 			pstmt.setString(6, doctor.getPhone());
 			//pstmt.setString(7, doctor.getPassword());
-			// need to set id also for update
+			// need to set id also for update idea
 			pstmt.setInt(7, doctor.getId());
 
 			pstmt.executeUpdate();

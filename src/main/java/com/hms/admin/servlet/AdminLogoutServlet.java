@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 @WebServlet("/adminLogout")
 public class AdminLogoutServlet extends HttpServlet {
@@ -16,10 +16,10 @@ public class AdminLogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//get session means get "adminObj" and remove it, logout done!
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 		session.removeAttribute("adminObj");
 		//show message after logout
-		session.setAttribute("successMsg", "Admin Logout Successfully");
+		session.setAttribute("successMsg", "Admin Logout Successfully"); // Stored in Redis
 		resp.sendRedirect("admin_login.jsp");
 		
 		

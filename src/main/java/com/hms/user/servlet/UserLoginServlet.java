@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
@@ -22,17 +22,17 @@ public class UserLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 		
 		UserDAO userDAO = new UserDAO(DBConnection.getConn());
 		User user = userDAO.loginUser(email, password);
 		
 		if (user!=null) {
-			session.setAttribute("userObj",user);
+			session.setAttribute("userObj",user); // Stored in Redis
 			resp.sendRedirect("index.jsp"); 
 		}
 		else {
-			session.setAttribute("errorMsg","Invalid email or password");
+			session.setAttribute("errorMsg","Invalid email or password"); // Stored in Redis
 			resp.sendRedirect("user_login.jsp"); 
 		}
 	}

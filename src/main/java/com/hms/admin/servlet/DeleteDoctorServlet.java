@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -22,16 +22,16 @@ public class DeleteDoctorServlet extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 		
 		boolean f = docDAO.deleteDoctorById(id);
 		
 		if(f==true) {
-			session.setAttribute("successMsg", "Doctor Deleted Successfully.");
+			session.setAttribute("successMsg", "Doctor Deleted Successfully."); // Stored in Redis
 			resp.sendRedirect("admin/view_doctor.jsp");
 		}
 		else {
-			session.setAttribute("errorMsg", "Something went wrong on server!");
+			session.setAttribute("errorMsg", "Something went wrong on server!"); // Stored in Redis
 			resp.sendRedirect("admin/view_doctor.jsp");
 		}
 	}

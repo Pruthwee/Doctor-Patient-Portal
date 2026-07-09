@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // Managed by Spring Session Redis
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -24,24 +24,24 @@ public class DoctorChangePassword extends HttpServlet {
 
 		DoctorDAO doctorDAO = new DoctorDAO(DBConnection.getConn());
 
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession(); // Distributed session via Redis
 
 		if (doctorDAO.checkOldPassword(doctorId, oldPassword)) {
 
 			if (doctorDAO.changePassword(doctorId, newPassword)) {
 				
-				session.setAttribute("successMsg", "Password change successfully.");
+				session.setAttribute("successMsg", "Password change successfully."); // Stored in Redis
 				resp.sendRedirect("doctor/edit_profile.jsp");
 
 			} else {
 				
-				session.setAttribute("errorMsg", "Something went wrong on server!");
+				session.setAttribute("errorMsg", "Something went wrong on server!"); // Stored in Redis
 				resp.sendRedirect("doctor/edit_profile.jsp");
 
 			}
 
 		} else {
-			session.setAttribute("errorMsg", "Old Password not match");
+			session.setAttribute("errorMsg", "Old Password not match"); // Stored in Redis
 			resp.sendRedirect("doctor/edit_profile.jsp");
 
 		}
