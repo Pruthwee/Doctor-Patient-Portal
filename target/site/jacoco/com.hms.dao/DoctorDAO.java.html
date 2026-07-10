@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoctorDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Doctor-Patient-Portal Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.hms.dao</a> &gt; <span class="el_source">DoctorDAO.java</span></div><h1>DoctorDAO.java</h1><pre class="source lang-java linenums">package com.hms.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hms.entity.Doctor;
+
+public class DoctorDAO {
+
+	private Connection conn;
+
+	public DoctorDAO(Connection conn) {
+<span class="nc" id="L16">		super();</span>
+<span class="nc" id="L17">		this.conn = conn;</span>
+<span class="nc" id="L18">	}</span>
+
+	public boolean registerDoctor(Doctor doctor) {
+
+<span class="nc" id="L22">		boolean f = false;</span>
+
+		try {
+
+<span class="nc" id="L26">			String sql = &quot;insert into doctor(fullName,dateOfBirth,qualification,specialist,email,phone,password) values(?,?,?,?,?,?,?)&quot;;</span>
+
+<span class="nc" id="L28">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L29">			pstmt.setString(1, doctor.getFullName());</span>
+<span class="nc" id="L30">			pstmt.setString(2, doctor.getDateOfBirth());</span>
+<span class="nc" id="L31">			pstmt.setString(3, doctor.getQualification());</span>
+<span class="nc" id="L32">			pstmt.setString(4, doctor.getSpecialist());</span>
+<span class="nc" id="L33">			pstmt.setString(5, doctor.getEmail());</span>
+<span class="nc" id="L34">			pstmt.setString(6, doctor.getPhone());</span>
+<span class="nc" id="L35">			pstmt.setString(7, doctor.getPassword());</span>
+
+<span class="nc" id="L37">			pstmt.executeUpdate();</span>
+			// if query inserted or all ok than
+<span class="nc" id="L39">			f = true;</span>
+
+<span class="nc" id="L41">		} catch (Exception e) {</span>
+<span class="nc" id="L42">			e.printStackTrace();</span>
+<span class="nc" id="L43">		}</span>
+
+<span class="nc" id="L45">		return f;</span>
+	}
+
+	// getAllDoctors list
+	public List&lt;Doctor&gt; getAllDoctor() {
+
+<span class="nc" id="L51">		Doctor doctor = null;</span>
+<span class="nc" id="L52">		List&lt;Doctor&gt; docList = new ArrayList&lt;Doctor&gt;();</span>
+
+		try {
+
+<span class="nc" id="L56">			String sql = &quot;select * from doctor order by id desc&quot;;</span>
+<span class="nc" id="L57">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L59">			ResultSet resultSet = pstmt.executeQuery();</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+<span class="nc" id="L62">				doctor = new Doctor();</span>
+
+<span class="nc" id="L64">				doctor.setId(resultSet.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L65">				doctor.setFullName(resultSet.getString(&quot;fullName&quot;));</span>
+<span class="nc" id="L66">				doctor.setDateOfBirth(resultSet.getString(&quot;dateOfBirth&quot;));</span>
+<span class="nc" id="L67">				doctor.setQualification(resultSet.getString(&quot;qualification&quot;));</span>
+<span class="nc" id="L68">				doctor.setSpecialist(resultSet.getString(&quot;specialist&quot;));</span>
+<span class="nc" id="L69">				doctor.setEmail(resultSet.getString(&quot;email&quot;));</span>
+<span class="nc" id="L70">				doctor.setPhone(resultSet.getString(&quot;phone&quot;));</span>
+<span class="nc" id="L71">				doctor.setPassword(resultSet.getString(&quot;password&quot;));</span>
+<span class="nc" id="L72">				docList.add(doctor);</span>
+			}
+
+<span class="nc" id="L75">		} catch (Exception e) {</span>
+<span class="nc" id="L76">			e.printStackTrace();</span>
+<span class="nc" id="L77">		}</span>
+
+<span class="nc" id="L79">		return docList;</span>
+	}
+
+	// get doctor by id
+	public Doctor getDoctorById(int id) {
+
+<span class="nc" id="L85">		Doctor doctor = null;</span>
+
+		try {
+
+<span class="nc" id="L89">			String sql = &quot;select * from doctor where id=?&quot;;</span>
+<span class="nc" id="L90">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L91">			pstmt.setInt(1, id);</span>
+
+<span class="nc" id="L93">			ResultSet resultSet = pstmt.executeQuery();</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+<span class="nc" id="L96">				doctor = new Doctor();</span>
+
+<span class="nc" id="L98">				doctor.setId(resultSet.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L99">				doctor.setFullName(resultSet.getString(&quot;fullName&quot;));</span>
+<span class="nc" id="L100">				doctor.setDateOfBirth(resultSet.getString(&quot;dateOfBirth&quot;));</span>
+<span class="nc" id="L101">				doctor.setQualification(resultSet.getString(&quot;qualification&quot;));</span>
+<span class="nc" id="L102">				doctor.setSpecialist(resultSet.getString(&quot;specialist&quot;));</span>
+<span class="nc" id="L103">				doctor.setEmail(resultSet.getString(&quot;email&quot;));</span>
+<span class="nc" id="L104">				doctor.setPhone(resultSet.getString(&quot;phone&quot;));</span>
+<span class="nc" id="L105">				doctor.setPassword(resultSet.getString(&quot;password&quot;));</span>
+
+			}
+
+<span class="nc" id="L109">		} catch (Exception e) {</span>
+<span class="nc" id="L110">			e.printStackTrace();</span>
+<span class="nc" id="L111">		}</span>
+
+<span class="nc" id="L113">		return doctor;</span>
+	}
+
+	// update doctors by id
+	public boolean updateDoctor(Doctor doctor) {
+
+<span class="nc" id="L119">		boolean f = false;</span>
+
+		try {
+
+<span class="nc" id="L123">			String sql = &quot;update doctor set fullName=?,dateOfBirth=?,qualification=?,specialist=?,email=?,phone=?,password=? where id=?&quot;;</span>
+
+<span class="nc" id="L125">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L126">			pstmt.setString(1, doctor.getFullName());</span>
+<span class="nc" id="L127">			pstmt.setString(2, doctor.getDateOfBirth());</span>
+<span class="nc" id="L128">			pstmt.setString(3, doctor.getQualification());</span>
+<span class="nc" id="L129">			pstmt.setString(4, doctor.getSpecialist());</span>
+<span class="nc" id="L130">			pstmt.setString(5, doctor.getEmail());</span>
+<span class="nc" id="L131">			pstmt.setString(6, doctor.getPhone());</span>
+<span class="nc" id="L132">			pstmt.setString(7, doctor.getPassword());</span>
+			// need to set id also for update
+<span class="nc" id="L134">			pstmt.setInt(8, doctor.getId());</span>
+
+<span class="nc" id="L136">			pstmt.executeUpdate();</span>
+			// if query updated or all ok than
+<span class="nc" id="L138">			f = true;</span>
+
+<span class="nc" id="L140">		} catch (Exception e) {</span>
+<span class="nc" id="L141">			e.printStackTrace();</span>
+<span class="nc" id="L142">		}</span>
+
+<span class="nc" id="L144">		return f;</span>
+	}
+
+	// delete doctors by id
+	public boolean deleteDoctorById(int id) {
+
+<span class="nc" id="L150">		boolean f = false;</span>
+
+		try {
+
+<span class="nc" id="L154">			String sql = &quot;delete from doctor where id=?&quot;;</span>
+<span class="nc" id="L155">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L156">			pstmt.setInt(1, id);</span>
+
+<span class="nc" id="L158">			pstmt.executeUpdate();</span>
+
+<span class="nc" id="L160">			f = true;</span>
+
+<span class="nc" id="L162">		} catch (Exception e) {</span>
+<span class="nc" id="L163">			e.printStackTrace();</span>
+<span class="nc" id="L164">		}</span>
+
+<span class="nc" id="L166">		return f;</span>
+	}
+
+	// doctor login
+	public Doctor loginDoctor(String email, String password) {
+
+<span class="nc" id="L172">		Doctor doctor = null;</span>
+
+		try {
+
+<span class="nc" id="L176">			String sql = &quot;select * from doctor where email=? and password=?&quot;;</span>
+<span class="nc" id="L177">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L179">			pstmt.setString(1, email);</span>
+<span class="nc" id="L180">			pstmt.setString(2, password);</span>
+
+<span class="nc" id="L182">			ResultSet resultSet = pstmt.executeQuery();</span>
+
+<span class="nc bnc" id="L184" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+<span class="nc" id="L185">				doctor = new Doctor();</span>
+
+				/*
+				 * doctor.setId(resultSet.getInt(&quot;id&quot;));
+				 * doctor.setFullName(resultSet.getString(&quot;fullName&quot;));
+				 * doctor.setDateOfBirth(resultSet.getString(&quot;dateOfBirth&quot;));
+				 * doctor.setQualification(resultSet.getString(&quot;qualification&quot;));
+				 * doctor.setSpecialist(resultSet.getString(&quot;specialist&quot;));
+				 * doctor.setEmail(resultSet.getString(&quot;email&quot;));
+				 * doctor.setPhone(resultSet.getString(&quot;phone&quot;));
+				 * doctor.setPassword(resultSet.getString(&quot;password&quot;));
+				 */
+				// we can write above commented code or
+				// or
+				// the below way [here 1 2 3..serially are the column index number of doctor
+				// table]
+
+<span class="nc" id="L202">				doctor.setId(resultSet.getInt(1));</span>
+<span class="nc" id="L203">				doctor.setFullName(resultSet.getString(2));</span>
+<span class="nc" id="L204">				doctor.setDateOfBirth(resultSet.getString(3));</span>
+<span class="nc" id="L205">				doctor.setQualification(resultSet.getString(4));</span>
+<span class="nc" id="L206">				doctor.setSpecialist(resultSet.getString(5));</span>
+<span class="nc" id="L207">				doctor.setEmail(resultSet.getString(6));</span>
+<span class="nc" id="L208">				doctor.setPhone(resultSet.getString(7));</span>
+<span class="nc" id="L209">				doctor.setPassword(resultSet.getString(8));</span>
+
+			}
+
+<span class="nc" id="L213">		} catch (Exception e) {</span>
+<span class="nc" id="L214">			e.printStackTrace();</span>
+<span class="nc" id="L215">		}</span>
+
+<span class="nc" id="L217">		return doctor;</span>
+
+	}
+
+	// show total number of dynamic value in admin panel
+
+	// create all count method here to reduce code line...
+	// Count total Doctor Number
+	public int countTotalDoctor() {
+
+<span class="nc" id="L227">		int i = 0;</span>
+
+		try {
+
+<span class="nc" id="L231">			String sql = &quot;select * from doctor&quot;;</span>
+<span class="nc" id="L232">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L234">			ResultSet resultSet = pstmt.executeQuery();</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+
+<span class="nc" id="L237">				i++;</span>
+			}
+
+<span class="nc" id="L240">		} catch (Exception e) {</span>
+<span class="nc" id="L241">			e.printStackTrace();</span>
+<span class="nc" id="L242">		}</span>
+
+<span class="nc" id="L244">		return i;</span>
+	}
+
+	// Count total Appointment Number
+	public int countTotalAppointment() {
+
+<span class="nc" id="L250">		int i = 0;</span>
+
+		try {
+
+<span class="nc" id="L254">			String sql = &quot;select * from appointment&quot;;</span>
+<span class="nc" id="L255">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L257">			ResultSet resultSet = pstmt.executeQuery();</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+
+<span class="nc" id="L260">				i++;</span>
+			}
+
+<span class="nc" id="L263">		} catch (Exception e) {</span>
+<span class="nc" id="L264">			e.printStackTrace();</span>
+<span class="nc" id="L265">		}</span>
+
+<span class="nc" id="L267">		return i;</span>
+	}
+
+	// Count total number of Appointment for a specific doctor
+	public int countTotalAppointmentByDoctorId(int doctorId) {
+
+<span class="nc" id="L273">		int i = 0;</span>
+
+		try {
+
+<span class="nc" id="L277">			String sql = &quot;select * from appointment where doctorId=?&quot;;</span>
+<span class="nc" id="L278">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L279">			pstmt.setInt(1, doctorId);</span>
+
+<span class="nc" id="L281">			ResultSet resultSet = pstmt.executeQuery();</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+
+<span class="nc" id="L284">				i++;</span>
+			}
+
+<span class="nc" id="L287">		} catch (Exception e) {</span>
+<span class="nc" id="L288">			e.printStackTrace();</span>
+<span class="nc" id="L289">		}</span>
+
+<span class="nc" id="L291">		return i;</span>
+	}
+
+	// Count total User Number
+	public int countTotalUser() {
+
+<span class="nc" id="L297">		int i = 0;</span>
+
+		try {
+
+<span class="nc" id="L301">			String sql = &quot;select * from user_details&quot;;</span>
+<span class="nc" id="L302">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L304">			ResultSet resultSet = pstmt.executeQuery();</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+
+<span class="nc" id="L307">				i++;</span>
+			}
+
+<span class="nc" id="L310">		} catch (Exception e) {</span>
+<span class="nc" id="L311">			e.printStackTrace();</span>
+<span class="nc" id="L312">		}</span>
+
+<span class="nc" id="L314">		return i;</span>
+	}
+
+	// Count total Specialist Number
+	public int countTotalSpecialist() {
+
+<span class="nc" id="L320">		int i = 0;</span>
+
+		try {
+
+<span class="nc" id="L324">			String sql = &quot;select * from specialist&quot;;</span>
+<span class="nc" id="L325">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L327">			ResultSet resultSet = pstmt.executeQuery();</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+
+<span class="nc" id="L330">				i++;</span>
+			}
+
+<span class="nc" id="L333">		} catch (Exception e) {</span>
+<span class="nc" id="L334">			e.printStackTrace();</span>
+<span class="nc" id="L335">		}</span>
+
+<span class="nc" id="L337">		return i;</span>
+	}
+
+	// check old password
+	public boolean checkOldPassword(int doctorId, String oldPassword) {
+
+<span class="nc" id="L343">		boolean f = false;</span>
+
+		try {
+
+<span class="nc" id="L347">			String sql = &quot;select * from doctor where id=? and password=?&quot;;</span>
+<span class="nc" id="L348">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L349">			pstmt.setInt(1, doctorId);</span>
+<span class="nc" id="L350">			pstmt.setString(2, oldPassword);</span>
+
+<span class="nc" id="L352">			ResultSet resultSet = pstmt.executeQuery();</span>
+
+<span class="nc bnc" id="L354" title="All 2 branches missed.">			while (resultSet.next()) {</span>
+<span class="nc" id="L355">				f = true;</span>
+			}
+
+<span class="nc" id="L358">		} catch (Exception e) {</span>
+<span class="nc" id="L359">			e.printStackTrace();</span>
+<span class="nc" id="L360">		}</span>
+
+<span class="nc" id="L362">		return f;</span>
+	}
+
+	// change password
+	public boolean changePassword(int doctorId, String newPassword) {
+
+<span class="nc" id="L368">		boolean f = false;</span>
+
+		try {
+
+<span class="nc" id="L372">			String sql = &quot;update doctor set password=? where id=?&quot;;</span>
+<span class="nc" id="L373">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L374">			pstmt.setString(1, newPassword);</span>
+<span class="nc" id="L375">			pstmt.setInt(2, doctorId);</span>
+
+<span class="nc" id="L377">			pstmt.executeUpdate();</span>
+
+<span class="nc" id="L379">			f = true;</span>
+
+<span class="nc" id="L381">		} catch (Exception e) {</span>
+<span class="nc" id="L382">			e.printStackTrace();</span>
+<span class="nc" id="L383">		}</span>
+
+<span class="nc" id="L385">		return f;</span>
+	}
+
+	// edit doctor profile in doctor panel edit profile
+	public boolean editDoctorProfile(Doctor doctor) {
+
+<span class="nc" id="L391">		boolean f = false;</span>
+
+		try {
+
+			//String sql = &quot;update doctor set fullName=?,dateOfBirth=?,qualification=?,specialist=?,email=?,phone=?,password=? where id=?&quot;;
+<span class="nc" id="L396">			String sql = &quot;update doctor set fullName=?,dateOfBirth=?,qualification=?,specialist=?,email=?,phone=? where id=?&quot;;</span>
+
+<span class="nc" id="L398">			PreparedStatement pstmt = this.conn.prepareStatement(sql);</span>
+<span class="nc" id="L399">			pstmt.setString(1, doctor.getFullName());</span>
+<span class="nc" id="L400">			pstmt.setString(2, doctor.getDateOfBirth());</span>
+<span class="nc" id="L401">			pstmt.setString(3, doctor.getQualification());</span>
+<span class="nc" id="L402">			pstmt.setString(4, doctor.getSpecialist());</span>
+<span class="nc" id="L403">			pstmt.setString(5, doctor.getEmail());</span>
+<span class="nc" id="L404">			pstmt.setString(6, doctor.getPhone());</span>
+			//pstmt.setString(7, doctor.getPassword());
+			// need to set id also for update
+<span class="nc" id="L407">			pstmt.setInt(7, doctor.getId());</span>
+
+<span class="nc" id="L409">			pstmt.executeUpdate();</span>
+			// if query updated or all okay than
+<span class="nc" id="L411">			f = true;</span>
+
+<span class="nc" id="L413">		} catch (Exception e) {</span>
+<span class="nc" id="L414">			e.printStackTrace();</span>
+<span class="nc" id="L415">		}</span>
+
+<span class="nc" id="L417">		return f;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
