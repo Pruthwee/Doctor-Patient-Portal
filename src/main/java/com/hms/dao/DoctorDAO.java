@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.hms.entity.Doctor;
+
+public class DoctorDAO {
 
 	private Connection conn;
 
@@ -402,7 +407,7 @@ import java.util.ArrayList;
 			pstmt.setInt(7, doctor.getId());
 
 			pstmt.executeUpdate();
-			// if query updated or all okay than
+			// if query updated or all ok than
 			f = true;
 
 		} catch (Exception e) {

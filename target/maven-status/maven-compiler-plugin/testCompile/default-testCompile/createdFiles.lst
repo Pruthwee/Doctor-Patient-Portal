@@ -1,0 +1,9 @@
+com/hms/entity/UserTest.class
+com/hms/entity/SpecialistTest.class
+com/hms/dao/DoctorDAOTest.class
+com/hms/dao/UserDAOTest.class
+com/hms/dao/SpecialistDAOTest.class
+com/hms/dao/AppointmentDAOTest.class
+com/hms/entity/AppointmentTest.class
+com/hms/entity/DoctorTest.class
+com/hms/db/DBConnectionTest.class
