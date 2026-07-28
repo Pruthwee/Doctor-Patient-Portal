@@ -7,9 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 import com.hms.entity.User;
+import com.hms.util.JwtUtil;
 
 @WebServlet("/adminLogin")
 public class AdminLoginServlet extends HttpServlet {
@@ -23,19 +24,17 @@ public class AdminLoginServlet extends HttpServlet {
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
 			
-			HttpSession session = req.getSession();
-			
 			//logic for a static Admin
 			if ("admin@gmail.com".equals(email) && "admin".equals(password)) {
 				
-				//if "adminObj" obj available then give the access of admin page, 
-				//otherwise "adminObj" is not present in obj then others user is login(which is not admin). so dont give him the access of Admin.
-				//the below line specially check the admin is log in or not! "adminObj" object is available that means admin is log in.
-				session.setAttribute("adminObj", new User());
+				String token = JwtUtil.generateToken(email);
+				Cookie cookie = new Cookie("jwt", token);
+				cookie.setHttpOnly(true);
+				resp.addCookie(cookie);
+				
 				resp.sendRedirect("admin/index.jsp");
 			}
 			else {
-				session.setAttribute("errorMsg", "Invalid Username or Password.");
 				resp.sendRedirect("admin_login.jsp");
 			}
 			

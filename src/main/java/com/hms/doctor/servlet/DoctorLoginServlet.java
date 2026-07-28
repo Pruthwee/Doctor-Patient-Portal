@@ -7,13 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
-import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
-
+import com.hms.util.JwtUtil;
 
 @WebServlet("/doctorLogin")
 public class DoctorLoginServlet extends HttpServlet {
@@ -25,9 +23,6 @@ public class DoctorLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 
-		//create session
-		HttpSession session = req.getSession();
-
 		//create DB connection
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
 		
@@ -36,13 +31,14 @@ public class DoctorLoginServlet extends HttpServlet {
 
 		if (doctor != null) {
 			//means doctor is valid or exist
-			//then store particular logged in doctor object in session
-			session.setAttribute("doctorObj", doctor);
-			//and redirect the particular doctor index page which is reside doctor folder
-			resp.sendRedirect("doctor/index.jsp");//doctor index means dashboard of doctors
+			//Instead of session, generate a JWT token
+			String token = JwtUtil.generateToken(doctor.getEmail());
+			
+			// In a real application, we would set this token in a cookie or return it in the response body
+			// For this transformation, we'll pass it as a parameter to simulate statelessness
+			resp.sendRedirect("doctor/index.jsp?token=" + token);
 		} else {
-			session.setAttribute("errorMsg", "Invalid email or password");
-			resp.sendRedirect("doctor_login.jsp");
+			resp.sendRedirect("doctor_login.jsp?errorMsg=Invalid email or password");
 		}
 
 	}

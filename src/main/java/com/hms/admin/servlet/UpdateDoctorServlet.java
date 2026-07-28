@@ -7,20 +7,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
-@WebServlet("/updateDoctor")
+@WebServlet("/update_doctor")
 public class UpdateDoctorServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		try {
-
 			// get all data which is coming from doctor.jsp doctor details
 			String fullName = req.getParameter("fullName");
 			String dateOfBirth = req.getParameter("dateOfBirth");
@@ -40,21 +37,16 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
-			HttpSession session = req.getSession();
-
 			if (f == true) {
-				session.setAttribute("successMsg", "Doctor update Successfully");
-				resp.sendRedirect("admin/view_doctor.jsp");
+				resp.sendRedirect("admin/view_doctor.jsp?successMsg=Doctor update Successfully");
 
 			} else {
-				session.setAttribute("errorMsg", "Something went wrong on server!");
-				resp.sendRedirect("admin/view_doctor.jsp");
+				resp.sendRedirect("admin/view_doctor.jsp?errorMsg=Something went wrong on server!");
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			resp.sendRedirect("admin/view_doctor.jsp?errorMsg=An error occurred while updating doctor details.");
 		}
-
 	}
-
 }

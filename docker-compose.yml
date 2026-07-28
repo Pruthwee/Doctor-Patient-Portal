@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  doctor-patient-portal:
+    image: doctor-patient-portal:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:mysql://mysql-host:3306/hospital
+      - DB_USER=root
+      - DB_PASS=wasim
+      - REDIS_HOST=redis-host
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=your_redis_password
+    volumes:
+      - ./config:/app/config
+    restart: always

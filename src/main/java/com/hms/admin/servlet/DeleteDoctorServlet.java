@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -22,17 +21,14 @@ public class DeleteDoctorServlet extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		DoctorDAO docDAO = new DoctorDAO(DBConnection.getConn());
-		HttpSession session = req.getSession();
 		
 		boolean f = docDAO.deleteDoctorById(id);
 		
 		if(f==true) {
-			session.setAttribute("successMsg", "Doctor Deleted Successfully.");
-			resp.sendRedirect("admin/view_doctor.jsp");
+			resp.sendRedirect("admin/view_doctor.jsp?success=Doctor Deleted Successfully.");
 		}
 		else {
-			session.setAttribute("errorMsg", "Something went wrong on server!");
-			resp.sendRedirect("admin/view_doctor.jsp");
+			resp.sendRedirect("admin/view_doctor.jsp?error=Something went wrong on server!");
 		}
 	}
 	

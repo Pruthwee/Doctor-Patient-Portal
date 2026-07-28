@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
@@ -36,20 +35,15 @@ public class AppointmentServlet extends HttpServlet{
 	AppointmentDAO appointmentDAO = new AppointmentDAO(DBConnection.getConn());
 	boolean f = appointmentDAO.addAppointment(appointment);
 	
-	//get session
-	HttpSession session = req.getSession();
-	
 	if(f==true) {
 		
-		session.setAttribute("successMsg", "Appointment is recorded Successfully.");
-		resp.sendRedirect("user_appointment.jsp");
+		resp.sendRedirect("user_appointment.jsp?successMsg=Appointment is recorded Successfully.");
 		
 		
 	}
 	else {
 		
-		session.setAttribute("errorMsg", "Something went wrong on server!");
-		resp.sendRedirect("user_appointment.jsp");
+		resp.sendRedirect("user_appointment.jsp?errorMsg=Something went wrong on server!");
 		
 	}
 	

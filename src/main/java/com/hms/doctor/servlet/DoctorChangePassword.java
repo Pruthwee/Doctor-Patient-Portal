@@ -7,12 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 
-@WebServlet("/doctorChangePassword")
+@WebServlet("/doctor_change_password")
 public class DoctorChangePassword extends HttpServlet {
 
 	@Override
@@ -24,25 +23,21 @@ public class DoctorChangePassword extends HttpServlet {
 
 		DoctorDAO doctorDAO = new DoctorDAO(DBConnection.getConn());
 
-		HttpSession session = req.getSession();
-
+		// Use JWT for stateless communication instead of server-side session for messages
 		if (doctorDAO.checkOldPassword(doctorId, oldPassword)) {
 
 			if (doctorDAO.changePassword(doctorId, newPassword)) {
 				
-				session.setAttribute("successMsg", "Password change successfully.");
-				resp.sendRedirect("doctor/edit_profile.jsp");
+				resp.sendRedirect("doctor/edit_profile.jsp?successMsg=Password change successfully.");
 
 			} else {
 				
-				session.setAttribute("errorMsg", "Something went wrong on server!");
-				resp.sendRedirect("doctor/edit_profile.jsp");
+				resp.sendRedirect("doctor/edit_profile.jsp?errorMsg=Something went wrong on server!");
 
 			}
 
 		} else {
-			session.setAttribute("errorMsg", "Old Password not match");
-			resp.sendRedirect("doctor/edit_profile.jsp");
+			resp.sendRedirect("doctor/edit_profile.jsp?errorMsg=Old Password not match");
 
 		}
 	}

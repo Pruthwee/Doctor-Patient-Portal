@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
@@ -23,28 +22,21 @@ public class ChangePasswordServlet extends HttpServlet{
 		String newPassword = req.getParameter("newPassword");
 		
 		UserDAO uDAO = new UserDAO(DBConnection.getConn());
-		//boolean f = uDAO.checkOldPassword(userId, oldPassword);
-		
-		
-		HttpSession session = req.getSession();
 		
 		if(uDAO.checkOldPassword(userId, oldPassword)) {
 			
 			if(uDAO.changePassword(userId, newPassword)) {
 				
-				session.setAttribute("successMsg", "Password Change Successfully.");
-				resp.sendRedirect("change_password.jsp");
+				resp.sendRedirect("change_password.jsp?successMsg=Password Change Successfully.");
 				
 			}else {
 				
-				session.setAttribute("errorMsg", "Something wrong on server!");
-				resp.sendRedirect("change_password.jsp");
+				resp.sendRedirect("change_password.jsp?errorMsg=Something wrong on server!");
 				
 			}
 			
 		}else {
-			session.setAttribute("errorMsg", "Old password incorrect");
-			resp.sendRedirect("change_password.jsp");
+			resp.sendRedirect("change_password.jsp?errorMsg=Old password incorrect");
 		}
 		
 		

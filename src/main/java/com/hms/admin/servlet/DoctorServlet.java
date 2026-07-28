@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
@@ -37,16 +36,12 @@ public class DoctorServlet extends HttpServlet{
 			
 			boolean f = docDAO.registerDoctor(doctor);
 
-			HttpSession session = req.getSession();
-			
 			if(f==true) {
-				session.setAttribute("successMsg", "Doctor added Successfully");
-				resp.sendRedirect("admin/doctor.jsp");
+				resp.sendRedirect("admin/doctor.jsp?success=Doctor added Successfully");
 				
 			}
 			else {
-				session.setAttribute("errorMsg", "Something went wrong on server!");
-				resp.sendRedirect("admin/doctor.jsp");
+				resp.sendRedirect("admin/doctor.jsp?error=Something went wrong on server!");
 			}
 			
 		} catch (Exception e) {

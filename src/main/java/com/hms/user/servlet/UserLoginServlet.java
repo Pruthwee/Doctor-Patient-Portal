@@ -7,11 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.User;
+import com.hms.util.JwtUtil;
 
 @WebServlet("/userLogin")
 public class UserLoginServlet extends HttpServlet {
@@ -22,18 +22,18 @@ public class UserLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
-		HttpSession session = req.getSession();
-		
 		UserDAO userDAO = new UserDAO(DBConnection.getConn());
 		User user = userDAO.loginUser(email, password);
 		
 		if (user!=null) {
-			session.setAttribute("userObj",user);
-			resp.sendRedirect("index.jsp"); 
+			String token = JwtUtil.generateToken(user.getEmail());
+			
+			// In a real application, the token would be sent in a cookie or response header
+			// For this transformation, we simulate by passing it as a parameter or just redirecting
+			resp.sendRedirect("index.jsp?token=" + token); 
 		}
 		else {
-			session.setAttribute("errorMsg","Invalid email or password");
-			resp.sendRedirect("user_login.jsp"); 
+			resp.sendRedirect("user_login.jsp?errorMsg=Invalid email or password"); 
 		}
 	}
 	

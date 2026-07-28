@@ -15,7 +15,7 @@ public class UserDAO {
 		this.conn = conn;
 	}
 
-	public boolean userRegister(User user) {
+	public boolean registerUser(User user) {
 
 		boolean f = false;
 

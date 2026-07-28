@@ -6,9 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-
 import com.hms.entity.Doctor;
 
 public class DoctorDAO {
@@ -186,21 +183,6 @@ public class DoctorDAO {
 
 			while (resultSet.next()) {
 				doctor = new Doctor();
-
-				/*
-				 * doctor.setId(resultSet.getInt("id"));
-				 * doctor.setFullName(resultSet.getString("fullName"));
-				 * doctor.setDateOfBirth(resultSet.getString("dateOfBirth"));
-				 * doctor.setQualification(resultSet.getString("qualification"));
-				 * doctor.setSpecialist(resultSet.getString("specialist"));
-				 * doctor.setEmail(resultSet.getString("email"));
-				 * doctor.setPhone(resultSet.getString("phone"));
-				 * doctor.setPassword(resultSet.getString("password"));
-				 */
-				// we can write above commented code or
-				// or
-				// the below way [here 1 2 3..serially are the column index number of doctor
-				// table]
 
 				doctor.setId(resultSet.getInt(1));
 				doctor.setFullName(resultSet.getString(2));

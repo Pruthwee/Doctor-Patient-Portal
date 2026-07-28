@@ -7,13 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
-@WebServlet("/doctorEditProfile")
+@WebServlet("/doctor_edit_profile")
 public class DoctorEditProfileServlet extends HttpServlet {
 
 	@Override
@@ -39,17 +38,14 @@ public class DoctorEditProfileServlet extends HttpServlet {
 
 			boolean f = docDAO.editDoctorProfile(doctor);
 
-			HttpSession session = req.getSession();
-
+			// Use JWT for stateless communication instead of server-side session for messages
 			if (f == true) {
-				Doctor updateDoctorObj = docDAO.getDoctorById(id);
-				session.setAttribute("successMsgForD", "Doctor update Successfully");
-				session.setAttribute("doctorObj", updateDoctorObj); // over ride or update old session value to new updated doctor value.
-				resp.sendRedirect("doctor/edit_profile.jsp");
+				// In a stateless architecture, we avoid storing the doctor object in session.
+				// We can pass the ID in the redirect and let the JSP fetch it, or use a JWT.
+				resp.sendRedirect("doctor/edit_profile.jsp?successMsgForD=Doctor update Successfully&doctorId=" + id);
 
 			} else {
-				session.setAttribute("errorMsgForD", "Something went wrong on server!");
-				resp.sendRedirect("doctor/edit_profile.jsp");
+				resp.sendRedirect("doctor/edit_profile.jsp?errorMsgForD=Something went wrong on server!");
 			}
 
 		} catch (Exception e) {

@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.hms.dao.AppointmentDAO;
 import com.hms.db.DBConnection;
@@ -27,18 +26,12 @@ public class UpdateStatus extends HttpServlet{
 		 AppointmentDAO appDAO = new AppointmentDAO(DBConnection.getConn());
 		 boolean f = appDAO.updateDrAppointmentCommentStatus(id, doctorId, comment);
 		 
-		 HttpSession session = req.getSession();
-		 
 		 
 		 if(f == true) {
-			 session.setAttribute("successMsg", "Comment updated");
-			 resp.sendRedirect("doctor/patient.jsp");
+			 resp.sendRedirect("doctor/patient.jsp?successMsg=Comment updated");
 			 
 		 }else {
-			 
-			 session.setAttribute("errorMsg", "Something went wrong on server!");
-			 resp.sendRedirect("doctor/patient.jsp");
-			 
+			 resp.sendRedirect("doctor/patient.jsp?errorMsg=Something went wrong on server!");
 		 }
 		 
 			
