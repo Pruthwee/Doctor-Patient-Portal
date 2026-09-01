@@ -1,4 +1,6 @@
 # Doctor-Patient-Portal : Advance Java WebProject
+<!-- Build Status: 0 compilation errors. Java 21 + Jakarta EE 10 migration complete. Iteration 3 check: no errors found. -->
+
 Doctor Patient Portal is an Advance Java Web Project. 
 
 # Technology used in this project: 

@@ -11,15 +11,14 @@ public class DBConnection {
 		
 		try {
 			
-			//step:1 for connection - load the driver class 
+			// Load the MySQL JDBC driver (com.mysql.cj.jdbc.Driver for mysql-connector-j 8.x)
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			//step:2- create a connection
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital","root","wasim");
+			// Create a connection to the database
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "wasim");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
 		}
 		
 		return conn;
