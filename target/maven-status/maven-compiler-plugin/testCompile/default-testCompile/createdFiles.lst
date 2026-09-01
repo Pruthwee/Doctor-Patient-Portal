@@ -1,0 +1,13 @@
+com/hms/dao/SpecialistDAOTest.class
+com/hms/user/servlet/UserLogoutServletTest.class
+com/hms/dao/AppointmentDAOTest.class
+com/hms/entity/AppointmentTest.class
+com/hms/entity/UserTest.class
+com/hms/doctor/servlet/DoctorLogoutServletTest.class
+com/hms/entity/SpecialistTest.class
+com/hms/dao/DoctorDAOTest.class
+com/hms/admin/servlet/AdminLogoutServletTest.class
+com/hms/dao/UserDAOTest.class
+com/hms/admin/servlet/AdminLoginServletTest.class
+com/hms/user/servlet/MyNewServletTest.class
+com/hms/entity/DoctorTest.class
