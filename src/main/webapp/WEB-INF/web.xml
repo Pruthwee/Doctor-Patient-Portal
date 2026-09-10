@@ -4,24 +4,70 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!--
+    =========================================================================
+    Spring Session – Amazon ElastiCache for Redis (cr-java-0065)
+    =========================================================================
+    The springSessionRepositoryFilter intercepts every HTTP request and
+    transparently replaces the servlet container's in-memory HttpSession
+    with a Redis-backed distributed session managed by Spring Session.
+
+    This eliminates server affinity (sticky sessions) and allows the
+    application to scale horizontally across multiple stateless instances
+    backed by Amazon ElastiCache for Redis.
+
+    The filter MUST be declared before any other filters or servlets so
+    that all downstream code receives the Redis-backed HttpSession wrapper.
+    =========================================================================
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!--
+    Spring ContextLoaderListener bootstraps the Spring ApplicationContext
+    (including RedisSessionConfig) when the web application starts.
+  -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.RedisSessionConfig</param-value>
+  </context-param>
+
   <servlet>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<display-name>myuserServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
+    <servlet-name>myuserServlet</servlet-name>
+    <display-name>myuserServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<display-name>MyNewServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
+    <servlet-name>MyNewServlet</servlet-name>
+    <display-name>MyNewServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<url-pattern>/myuserServlet</url-pattern>
+    <servlet-name>myuserServlet</servlet-name>
+    <url-pattern>/myuserServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+    <servlet-name>MyNewServlet</servlet-name>
+    <url-pattern>/MyNewServletRegisterUser</url-pattern>
   </servlet-mapping>
 </web-app>

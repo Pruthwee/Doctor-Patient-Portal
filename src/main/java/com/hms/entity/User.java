@@ -70,9 +70,15 @@ public class User {
 	}
 
 
+	/**
+	 * toString() intentionally omits the password field to prevent
+	 * credential leakage in logs, stack traces, and string representations.
+	 * Passwords are managed via AWS Secrets Manager and must never appear
+	 * in plaintext output.
+	 */
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password + "]";
+		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + "[PROTECTED]" + "]";
 	}
 	
 	

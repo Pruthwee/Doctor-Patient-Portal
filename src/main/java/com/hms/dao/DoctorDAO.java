@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-
+// NOTE (cr-java-0065): The unused HttpSession import has been removed from this
+// DAO class. Session state management is handled at the servlet layer, where
+// HttpSession is transparently backed by Amazon ElastiCache for Redis via
+// Spring Session (springSessionRepositoryFilter registered in web.xml +
+// RedisSessionConfig). The DAO layer remains stateless and session-agnostic.
 import com.hms.entity.Doctor;
 
 public class DoctorDAO {

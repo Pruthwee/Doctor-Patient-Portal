@@ -13,6 +13,17 @@ import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
+/**
+ * Handles updating an existing doctor record by the administrator.
+ *
+ * <p><strong>Session storage (cr-java-0065):</strong> HTTP session state is
+ * stored in <strong>Amazon ElastiCache for Redis</strong> via Spring Session.
+ * The {@code springSessionRepositoryFilter} registered in {@code web.xml}
+ * transparently wraps {@link HttpSession} so that flash messages set via
+ * {@code setAttribute} are propagated to the distributed Redis store instead
+ * of being held in the local JVM heap. This allows any horizontally-scaled
+ * instance to serve the subsequent redirect and read the flash message.
+ */
 @WebServlet("/updateDoctor")
 public class UpdateDoctorServlet extends HttpServlet {
 
@@ -29,9 +40,9 @@ public class UpdateDoctorServlet extends HttpServlet {
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phone");
 			String password = req.getParameter("password");
-			
-			//here need to get id also...for updating the doctor details
-			//doctors will update based on respective doctor's id
+
+			// here need to get id also...for updating the doctor details
+			// doctors will update based on respective doctor's id
 			int id = Integer.parseInt(req.getParameter("id"));
 
 			Doctor doctor = new Doctor(id, fullName, dateOfBirth, qualification, specialist, email, phone, password);
@@ -40,6 +51,10 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
+			// HttpSession is transparently backed by Amazon ElastiCache for Redis
+			// via Spring Session (springSessionRepositoryFilter in web.xml +
+			// RedisSessionConfig). Flash messages stored here are written to the
+			// distributed Redis store, enabling stateless horizontal scaling.
 			HttpSession session = req.getSession();
 
 			if (f == true) {
