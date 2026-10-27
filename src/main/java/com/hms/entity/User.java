@@ -1,6 +1,8 @@
 package com.hms.entity;
 
-public class User {
+public class User implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private int id;
 	private String fullName;
 	private String email;
@@ -72,7 +74,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password + "]";
+		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=****]";
 	}
 	
 	
