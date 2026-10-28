@@ -16,6 +16,9 @@ public class DBConnection {
 	private static final long SOCKET_TIMEOUT_MS = 30000;
 	private static final long LOGIN_TIMEOUT_SEC = 10;
 
+	// Port used when DB_PORT is not set (cr-java-0077)
+	private static final String DEFAULT_DB_PORT = "3306";
+
 	private static HikariDataSource dataSource;
 
 	private static synchronized HikariDataSource getDataSource() {
@@ -24,6 +27,9 @@ public class DBConnection {
 				// Read database credentials from AWS Secrets Manager (cr-java-0113)
 				String dbHost = System.getenv("DB_HOST");
 				String dbPort = System.getenv("DB_PORT");
+				if (dbPort == null || dbPort.trim().isEmpty()) {
+					dbPort = DEFAULT_DB_PORT;
+				}
 				String dbName = System.getenv("DB_NAME");
 				String dbUser = System.getenv("DB_USER");
 				String secretName = System.getenv("DB_SECRET_NAME");
