@@ -23,7 +23,7 @@ public class DBConnection {
 			try {
 				// Read database credentials from AWS Secrets Manager (cr-java-0113)
 				String dbHost = System.getenv("DB_HOST");
-				String dbPort = System.getenv("DB_PORT");
+				String dbPort = System.getenv().getOrDefault("DB_PORT", "3306");
 				String dbName = System.getenv("DB_NAME");
 				String dbUser = System.getenv("DB_USER");
 				String secretName = System.getenv("DB_SECRET_NAME");
