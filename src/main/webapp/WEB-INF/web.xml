@@ -3,6 +3,25 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+
+  <!-- Spring Session configuration (cz-java-0063, cz-java-0069) -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.SessionConfig</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
   	<servlet-name>myuserServlet</servlet-name>
@@ -23,5 +42,14 @@
   <servlet-mapping>
   	<servlet-name>MyNewServlet</servlet-name>
   	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <display-name>HealthCheckServlet</display-name>
+    <servlet-class>com.hms.health.HealthCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
   </servlet-mapping>
 </web-app>
