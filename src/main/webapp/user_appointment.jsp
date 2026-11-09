@@ -7,7 +7,7 @@
 
 
 <!-- for jstl tag -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="https://jakarta.ee/tags/jstl/core"%>
 <!-- end of jstl tag -->
 
 <%@page isELIgnored="false"%>
