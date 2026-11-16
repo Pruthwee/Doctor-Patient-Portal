@@ -14,6 +14,7 @@ import com.hms.db.DBConnection;
 
 @WebServlet("/deleteDoctor")
 public class DeleteDoctorServlet extends HttpServlet {
+	// Session state is now backed by Amazon ElastiCache for Redis via Spring Session
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

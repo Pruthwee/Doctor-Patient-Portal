@@ -16,6 +16,7 @@ import com.hms.entity.User;
 
 @WebServlet("/user_register")
 public class UserRegisterServlet extends HttpServlet {
+	// Session state is now backed by Amazon ElastiCache for Redis via Spring Session
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

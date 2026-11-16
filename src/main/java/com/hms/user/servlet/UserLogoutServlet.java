@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/userLogout")
 public class UserLogoutServlet extends HttpServlet {
+	// Session state is now backed by Amazon ElastiCache for Redis via Spring Session
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
