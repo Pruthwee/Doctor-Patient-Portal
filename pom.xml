@@ -7,14 +7,13 @@
 	<name>Doctor-Patient-Portal Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.release>25</maven.compiler.release>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -29,7 +28,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
+			<version>8.0.33</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
@@ -52,8 +51,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<release>25</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>3.3.2</version>
 			</plugin>
 		</plugins>
 		<finalName>Doctor-Patient-Portal</finalName>

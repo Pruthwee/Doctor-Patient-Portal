@@ -11,10 +11,8 @@ public class DBConnection {
 		
 		try {
 			
-			//step:1 for connection - load the driver class 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			//step:2- create a connection
+			//step:1- create a connection
+			//JDBC 4.0+ drivers auto-register via ServiceLoader, no Class.forName needed
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital","root","wasim");
 			
 		} catch (Exception e) {
